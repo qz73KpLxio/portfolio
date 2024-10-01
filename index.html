@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Samuel Dervishi</title>
+    <link rel="icon" href="image/image.png" type="image/png" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link
+      rel="preload"
+      href="font/ttf/PixelCode.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="pixel-font"><span class="hashtag">#</span> Samuel Dervishi</h1>
+      <h2 class="pixel-font">
+        <span class="hashtag">#</span> I am a Java back-end developer @
+        <a href="https://tegeria.com" class="link" target="_blank">Tegeria</a>,
+        <a href="https://read.cv/samueldervishi" class="link"
+          >My read.cv profile</a
+        >
+      </h2>
+
+      <h3 class="pixel-font"><span class="hashtag">#</span> Projects</h3>
+      <p class="pixel-font">
+        <span class="hashtag">#</span> These are a few of the side projects I’ve
+        been working on in my free time:
+        <a
+          href="https://github.com/samueldervishi1"
+          class="link"
+          target="_blank"
+          >My GitHub profile</a
+        >
+      </p>
+
+      <ul class="projects pixel-font">
+        <li>
+          <span class="list-marker">*</span>
+          <a
+            href="https://github.com/samueldervishi1/stack-game.git"
+            class="project-link"
+            >stack-game</a
+          >
+          : Simple stack game
+        </li>
+        <li>
+          <span class="list-marker">*</span>
+          <a
+            href="https://github.com/samueldervishi1/social-media-app"
+            class="project-link"
+            >CHIRP</a
+          >
+          : This is a simple social media application that is still under
+          development. It combines a Java backend with a ReactJS frontend built
+          using Vite.
+          <span class="note"
+            >Note: this is still in development and the repository cannot be
+            accessed. It will be made public soon!</span
+          >
+        </li>
+        <li>
+          <span class="list-marker">*</span>
+          <a
+            href="https://github.com/samueldervishi1/taleas-project-backend"
+            class="project-link"
+            >CareerCrush Back-End</a
+          >
+          : A web app inspired by dating apps to find the job you love
+        </li>
+      </ul>
+
+      <h3 class="pixel-font"><span class="hashtag">#</span> About</h3>
+      <p class="pixel-font">
+        <span class="hashtag">#</span> From a young age, I’ve been captivated by
+        the art of problem-solving. The thrill of dismantling gadgets,
+        deciphering their inner workings, and reassembling them was more than
+        just a childhood pastime—it was the spark that ignited my career
+        aspirations. Currently, I’m navigating my journey as a Java backend
+        developer. This path has not only sharpened my critical thinking
+        abilities but also equipped me with innovative strategies to tackle the
+        complex challenges of today’s digital world. When I’m not immersed in
+        work, you’ll find me indulging in a variety of hobbies. Whether it’s
+        feeling the adrenaline rush on the basketball court, embarking on
+        thrilling escapades with friends, or diving into the intricate world of
+        coding, I find joy in every moment. As an ardent movie enthusiast, I
+        draw inspiration from diverse narratives and the art of storytelling
+        that cinema offers.
+      </p>
+
+      <h3 class="pixel-font"><span class="hashtag">#</span> Links</h3>
+      <p>
+        <a href="https://github.com/samueldervishi1" class="link">GitHub</a> |
+        <a href="mailto:samueldervishi03@gmail.com" class="link">Email</a> |
+        <a href="https://www.linkedin.com/in/samueldervishi" class="link"
+          >LinkedIn</a
+        >
+        <button id="theme-toggle" class="link">
+          <i id="theme-icon" class="fas fa-sun"></i>
+        </button>
+      </p>
+    </div>
+
+    <script>
+      document
+        .getElementById("theme-toggle")
+        .addEventListener("click", function () {
+          const body = document.body;
+          const icon = document.getElementById("theme-icon");
+
+          body.classList.toggle("dark-theme");
+
+          if (body.classList.contains("dark-theme")) {
+            icon.classList.remove("fa-sun");
+            icon.classList.add("fa-moon");
+          } else {
+            icon.classList.remove("fa-moon");
+            icon.classList.add("fa-sun");
+          }
+        });
+
+      if (
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      ) {
+        document.body.classList.add("dark-theme");
+        document.getElementById("theme-icon").classList.remove("fa-sun");
+        document.getElementById("theme-icon").classList.add("fa-moon");
+      }
+    </script>
+  </body>
+</html>
