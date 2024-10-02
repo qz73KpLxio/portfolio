@@ -19,7 +19,6 @@
   font-size: 20px;
 }
 
-/* Additional styles */
 a.link {
   color: rgba(87, 141, 230, 0.5);
   text-decoration: underline;
@@ -66,7 +65,6 @@ li {
 body {
   background-color: white;
   color: black;
-  height: 100vh;
   margin: 0;
   display: flex;
   justify-content: center;
@@ -96,4 +94,64 @@ body.dark-theme #theme-icon {
 
 #theme-toggle:focus {
   outline: none;
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 90%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .pixel-font {
+    font-size: 16px;
+  }
+
+  #theme-toggle {
+    font-size: 12px;
+  }
+
+  li {
+    margin: 8px 0;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .container {
+    width: 85%;
+    padding: 15px;
+    font-size: 16px;
+  }
+
+  .pixel-font {
+    font-size: 18px;
+  }
+
+  #theme-toggle {
+    font-size: 14px;
+  }
+
+  li {
+    margin: 9px 0;
+  }
+}
+
+@media (min-width: 901px) {
+  .container {
+    width: 80%;
+    padding: 20px;
+    font-size: 20px;
+  }
+
+  .pixel-font {
+    font-size: 20px;
+  }
+
+  #theme-toggle {
+    font-size: 15px;
+  }
+
+  li {
+    margin: 10px 0;
+  }
 }
