@@ -19,6 +19,11 @@
   font-size: 20px;
 }
 
+::selection {
+  color: white;
+  background-color: rgba(87, 141, 230, 0.5);
+}
+
 a.link {
   color: rgba(87, 141, 230, 0.5);
   text-decoration: underline;
