@@ -1,0 +1,6 @@
+/public
+node_modules
+.env
+.cache
+dist
+package-lock.json
