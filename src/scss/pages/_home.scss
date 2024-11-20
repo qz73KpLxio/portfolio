@@ -89,6 +89,9 @@
   }
 
   &__hero {
+    background-image: url("../../public/art.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
     margin-bottom: 9.6rem;
     @extend %padding-home;
 
