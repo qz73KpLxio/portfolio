@@ -1,9 +1,12 @@
+import { injectSpeedInsights } from "@vercel/speed-insights";
 import LocomotiveScroll from "locomotive-scroll";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { copyText } from "./utils/index";
 import { mapEach } from "./utils/dom";
 // import Home from "./pages/home";
+
+injectSpeedInsights();
 
 const toContactButtons = document.querySelectorAll(".contact-scroll");
 const footer = document.getElementById("js-footer");
