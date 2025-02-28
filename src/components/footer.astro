@@ -1,7 +1,6 @@
 ---
 import { GITHUB_URL, INSTAGRAM_URL, LINKEDIN_URL } from '../constants'
 import ExternalLink from './external-link.astro'
-import Logo from './logo.astro'
 
 const footerLinks = [
   [
@@ -41,11 +40,11 @@ const footerLinks = [
 
   <div class='footer--contents'>
     <div class='footer--logo'>
-      <img id="profileImage" src="/me.jpeg" alt="Logo" width="155" height="153" style="border-radius: 50%; object-fit: cover; cursor: pointer;" />
+      <img id="profileImage" src="/logo1.png" alt="Logo" width="135" height="133" style="border-radius: 50%; object-fit: cover; cursor: pointer;" />
       <div id="imageModal" class="modal">
         <div class="modal-content">
           <span id="closeModal" class="close-btn">×</span>
-          <img src="/me.jpeg" alt="Profile" class="enlarged-image" />
+          <img src="/logo1.png" alt="Profile" class="enlarged-image" />
         </div>
       </div>
     </div>
