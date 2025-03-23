@@ -1,0 +1,26 @@
+---
+interface Props {
+  tag: string
+  selected: string
+  urlPattern: string
+}
+
+const { tag, selected, urlPattern } = Astro.props
+
+const href = urlPattern.replaceAll('{t}', tag)
+const isSelected = tag === selected
+---
+
+<a href={`${href}/`} class:list={{ selected: isSelected }}>{tag}</a>
+
+<style>
+  a {
+    padding: 8px 12px;
+    color: var(--colors-foreground);
+  }
+
+  a.selected {
+    color: var(--colors-background);
+    background: var(--colors-foreground);
+  }
+</style>

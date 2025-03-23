@@ -1,0 +1,249 @@
+---
+import { GITHUB_URL, INSTAGRAM_URL, LINKEDIN_URL } from '../constants'
+import ExternalLink from './external-link.astro'
+
+const footerLinks = [
+  [
+    {
+      label: 'Home',
+      url: '/',
+      isExternal: false,
+    },
+    {
+      label: 'About',
+      url: '/about/',
+      isExternal: false,
+    }
+  ],
+  [
+    {
+      label: 'GitHub',
+      url: GITHUB_URL,
+      isExternal: true,
+    },
+    {
+      label: 'Instagram',
+      url: INSTAGRAM_URL,
+      isExternal: true,
+    },
+    {
+      label: 'LinkedIn',
+      url: LINKEDIN_URL,
+      isExternal: true,
+    }
+  ],
+]
+---
+
+<footer class='footer'>
+  <hr />
+
+  <div class='footer--contents'>
+    <div class='footer--logo'>
+      <img id="profileImage" src="/me.jpg" alt="Logo" width="135" height="133" style="border-radius: 50%; object-fit: cover; cursor: pointer;" />
+      <div id="imageModal" class="modal">
+        <div class="modal-content">
+          <span id="closeModal" class="close-btn">×</span>
+          <img src="/me.jpg" alt="Profile" class="enlarged-image" />
+        </div>
+      </div>
+    </div>
+
+    <div class='footer--links'>
+      <div class='footer--links-grid'>
+        {
+          footerLinks.map((group) => (
+            <div class='footer--links-group'>
+              {group.map(({ isExternal, url, label }) =>
+                isExternal ? (
+                  <ExternalLink href={url}>{label}</ExternalLink>
+                ) : (
+                  <a href={url}>{label}</a>
+                ),
+              )}
+            </div>
+          ))
+        }
+      </div>
+      <p class='footer--copyright'>
+        © {new Date().getFullYear()} Samuel
+      </p>
+    </div>
+
+    <div class='footer--newsletter'>
+      <strong class='footer--newsletter-title'>A Programmer's Journey</strong>
+      <img
+        src='https://i.ibb.co/6cSF4Pp/bug-developer.gif'
+        alt='Fun GIF'
+        width='300'
+        height='200'
+      />
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    margin-top: 80px;
+  }
+
+  .footer--contents {
+    display: flex;
+    column-gap: 60px;
+    padding: 40px 0px;
+  }
+
+  .footer--logo {
+    flex-shrink: 0;
+  }
+
+  .footer--links {
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
+  }
+  .footer--links-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 28px;
+  }
+
+  .footer--links-group {
+    display: flex;
+    flex-direction: column;
+    row-gap: 18px;
+    width: max-content;
+  }
+
+  .footer--copyright {
+    font-size: var(--fontSizes-xs);
+  }
+
+  .footer--newsletter {
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
+  }
+  .footer--newsletter-title {
+    font-size: var(--fontSizes-2xl);
+  }
+  .footer--newsletter .subscribe-link {
+    display: flex;
+    width: min-content;
+    padding: 4px 6px;
+    background: var(--colors-red);
+    color: var(--colors-cosmic-latte);
+  }
+  .footer--newsletter .subscribe-link:hover {
+    color: var(--colors-red);
+    background: var(--colors-background);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .footer--newsletter .subscribe-link {
+      background: var(--colors-yellow);
+      color: var(--colors-rich-black);
+    }
+
+    .footer--newsletter .subscribe-link:hover {
+      color: var(--colors-yellow);
+      background: var(--colors-background);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .footer--contents {
+      flex-direction: column;
+      padding: 18px;
+      row-gap: 32px;
+    }
+
+    .footer--links {
+      order: 3;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .footer--links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .modal.show {
+    display: flex;
+    opacity: 1;
+  }
+
+  .modal-content {
+    position: relative;
+    text-align: center;
+  }
+
+  .enlarged-image {
+    width: 80%;
+    max-width: 500px;
+    border-radius: 50%;
+    object-fit: cover;
+    animation: zoomIn 0.3s ease-out;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  @keyframes zoomIn {
+    from {
+      transform: scale(0.5);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+</style>
+
+<script>
+  // JavaScript to open and close modal
+  const profileImage = document.getElementById('profileImage');
+  const modal = document.getElementById('imageModal');
+  const closeModal = document.getElementById('closeModal');
+
+  // Open the modal when image is clicked
+  profileImage.addEventListener('click', () => {
+    modal.classList.add('show');
+  });
+
+  // Close the modal when X is clicked
+  closeModal.addEventListener('click', () => {
+    modal.classList.remove('show');
+  });
+
+  // Close the modal if the background is clicked
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('show');
+    }
+  });
+</script>
