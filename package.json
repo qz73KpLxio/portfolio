@@ -10,27 +10,27 @@
     "clean": "rm -rf .astro node_modules && npm install"
   },
   "dependencies": {
-    "@giscus/react": "^2.4.0",
-    "@next/third-parties": "15.1.6",
-    "@types/node": "20.8.6",
-    "@types/react": "19.0.8",
-    "@types/react-dom": "19.0.3",
-    "autoprefixer": "10.4.15",
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.14.1",
-    "clsx": "^2.0.0",
-    "contentlayer2": "^0.5.3",
-    "eslint": "9.19.0",
-    "framer-motion": "^12.4.7",
-    "install": "^0.13.0",
-    "lucide-react": "^0.477.0",
-    "next": "15.2.3",
-    "next-contentlayer2": "^0.5.3",
-    "next-themes": "^0.2.1",
-    "postcss": "8.4.31",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
-    "react-wrap-balancer": "^1.1.0",
+    "@astrojs/vercel": "^8.0.1",
+    "astro": "^5.1.2",
+    "astro-seo": "^0.8.0"
+  },
+  "engines": {
+    "node": "20.18.0"
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "devDependencies": {
+    "@astrojs/mdx": "^4.0.3",
+    "@astrojs/rss": "^4.0.7",
+    "@astrojs/sitemap": "^3.1.6",
+    "@types/markdown-it": "^14.1.2",
+    "@types/sanitize-html": "^2.9.4",
+    "markdown-it": "^14.1.0",
+    "mdast-util-to-string": "^4.0.0",
+    "node-html-parser": "^7.0.1",
+    "prettier": "^3.0.3",
+    "prettier-plugin-astro": "^0.14.1",
     "reading-time": "^1.5.0",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-external-links": "^3.0.0",
