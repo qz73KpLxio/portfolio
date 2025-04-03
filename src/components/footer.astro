@@ -36,15 +36,22 @@ const footerLinks = [
 ---
 
 <footer class='footer'>
-  <hr />
+  <div class="footer-wave">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path fill="var(--wave-color)" fill-opacity="1" d="M0,192L48,176C96,160,192,128,288,122.7C384,117,480,139,576,165.3C672,192,768,224,864,213.3C960,203,1056,149,1152,138.7C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+    </svg>
+  </div>
 
   <div class='footer--contents'>
     <div class='footer--logo'>
-      <img id="profileImage" src="/me.jpg" alt="Logo" width="135" height="133" style="border-radius: 50%; object-fit: cover; cursor: pointer;" />
+      <div class="logo-container">
+        <img id="profileImage" src="/logo.png" alt="Logo" width="135" height="133" class="profile-image" />
+        <div class="pulse"></div>
+      </div>
       <div id="imageModal" class="modal">
         <div class="modal-content">
           <span id="closeModal" class="close-btn">×</span>
-          <img src="/me.jpg" alt="Profile" class="enlarged-image" />
+          <img src="/logo.png" alt="Profile" class="enlarged-image" />
         </div>
       </div>
     </div>
@@ -58,7 +65,7 @@ const footerLinks = [
                 isExternal ? (
                   <ExternalLink href={url}>{label}</ExternalLink>
                 ) : (
-                  <a href={url}>{label}</a>
+                  <a href={url} class="footer-link">{label}</a>
                 ),
               )}
             </div>
@@ -66,18 +73,18 @@ const footerLinks = [
         }
       </div>
       <p class='footer--copyright'>
-        © {new Date().getFullYear()} Samuel
+        © {new Date().getFullYear()} Samuel | Made with <span class="heart">❤</span>
       </p>
     </div>
-
     <div class='footer--newsletter'>
       <strong class='footer--newsletter-title'>A Programmer's Journey</strong>
-      <img
-        src='https://i.ibb.co/6cSF4Pp/bug-developer.gif'
-        alt='Fun GIF'
-        width='300'
-        height='200'
-      />
+      <div class="gif-container">
+        <img
+          src='https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTJydHRudTNlN2p2OGJka3htcDY1YTU2NGNsZGpoNnJ0YmtyMnB3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RbDKaczqWovIugyJmW/giphy.gif'
+          alt='Fun GIF'
+          class="journey-gif"
+        />
+      </div>
     </div>
   </div>
 </footer>
@@ -85,16 +92,93 @@ const footerLinks = [
 <style>
   footer {
     margin-top: 80px;
+    position: relative;
+    overflow: hidden;
+    padding-top: 40px;
+  }
+
+  .footer-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+
+  :root {
+    --wave-color: rgba(100, 100, 255, 0.1);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --wave-color: rgba(70, 70, 120, 0.2);
+    }
   }
 
   .footer--contents {
     display: flex;
     column-gap: 60px;
-    padding: 40px 0px;
+    padding: 40px 0px 60px;
+    position: relative;
+    z-index: 1;
   }
 
   .footer--logo {
     flex-shrink: 0;
+  }
+
+  .logo-container {
+    position: relative;
+    width: 135px;
+    height: 133px;
+  }
+
+  .profile-image {
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 2;
+    border: 3px solid transparent;
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    background-image: linear-gradient(var(--colors-background), var(--colors-background)), 
+                      linear-gradient(to right, #6a11cb, #2575fc);
+  }
+
+  .profile-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .pulse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+    animation: pulse 2s infinite;
+    z-index: 1;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+    }
+    
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+    }
+    
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+    }
   }
 
   .footer--links {
@@ -102,6 +186,7 @@ const footerLinks = [
     flex-direction: column;
     row-gap: 24px;
   }
+
   .footer--links-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -115,8 +200,41 @@ const footerLinks = [
     width: max-content;
   }
 
+  .footer-link {
+    position: relative;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    transition: width 0.3s ease;
+  }
+
+  .footer-link:hover::after {
+    width: 100%;
+  }
+
   .footer--copyright {
     font-size: var(--fontSizes-xs);
+    margin-top: 10px;
+  }
+
+  .heart {
+    color: #ff4d4d;
+    display: inline-block;
+    animation: heartbeat 1.5s infinite;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
   }
 
   .footer--newsletter {
@@ -124,49 +242,32 @@ const footerLinks = [
     flex-direction: column;
     row-gap: 24px;
   }
+
   .footer--newsletter-title {
     font-size: var(--fontSizes-2xl);
-  }
-  .footer--newsletter .subscribe-link {
-    display: flex;
-    width: min-content;
-    padding: 4px 6px;
-    background: var(--colors-red);
-    color: var(--colors-cosmic-latte);
-  }
-  .footer--newsletter .subscribe-link:hover {
-    color: var(--colors-red);
-    background: var(--colors-background);
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
   }
 
-  @media (prefers-color-scheme: dark) {
-    .footer--newsletter .subscribe-link {
-      background: var(--colors-yellow);
-      color: var(--colors-rich-black);
-    }
-
-    .footer--newsletter .subscribe-link:hover {
-      color: var(--colors-yellow);
-      background: var(--colors-background);
-    }
+  .gif-container {
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  @media (max-width: 768px) {
-    .footer--contents {
-      flex-direction: column;
-      padding: 18px;
-      row-gap: 32px;
-    }
-
-    .footer--links {
-      order: 3;
-    }
+  .gif-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
   }
 
-  @media (max-width: 320px) {
-    .footer--links-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .journey-gif {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    display: block;
   }
 
   .modal {
@@ -176,12 +277,13 @@ const footerLinks = [
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.8);
     justify-content: center;
     align-items: center;
     z-index: 1000;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+    backdrop-filter: blur(5px);
   }
 
   .modal.show {
@@ -200,50 +302,115 @@ const footerLinks = [
     border-radius: 50%;
     object-fit: cover;
     animation: zoomIn 0.3s ease-out;
+    box-shadow: 0 0 30px rgba(106, 17, 203, 0.5);
+    border: 4px solid white;
   }
   
   .close-btn {
     position: absolute;
-    top: 10px;
+    top: -40px;
     right: 10px;
     font-size: 30px;
     color: white;
     text-decoration: none;
-    padding: 5px 10px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
   }
 
   @keyframes zoomIn {
     from {
       transform: scale(0.5);
+      opacity: 0;
     }
     to {
       transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .footer--contents {
+      flex-direction: column;
+      padding: 18px;
+      row-gap: 32px;
+    }
+
+    .footer--links {
+      order: 3;
+    }
+
+    .logo-container {
+      margin: 0 auto;
+    }
+
+    .footer--newsletter-title {
+      text-align: center;
+    }
+
+    .gif-container {
+      margin: 0 auto;
+    }
+
+    .journey-gif {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .footer--links-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 </style>
 
 <script>
-  // JavaScript to open and close modal
-  const profileImage = document.getElementById('profileImage');
-  const modal = document.getElementById('imageModal');
-  const closeModal = document.getElementById('closeModal');
+  // JavaScript to open and close modal with null checks
+  document.addEventListener('DOMContentLoaded', () => {
+    const profileImage = document.getElementById('profileImage');
+    const modal = document.getElementById('imageModal');
+    const closeModal = document.getElementById('closeModal');
 
-  // Open the modal when image is clicked
-  profileImage.addEventListener('click', () => {
-    modal.classList.add('show');
-  });
+    if (profileImage && modal) {
+      // Open the modal when image is clicked
+      profileImage.addEventListener('click', () => {
+        modal.classList.add('show');
+      });
+    }
 
-  // Close the modal when X is clicked
-  closeModal.addEventListener('click', () => {
-    modal.classList.remove('show');
-  });
+    if (closeModal && modal) {
+      // Close the modal when X is clicked
+      closeModal.addEventListener('click', () => {
+        modal.classList.remove('show');
+      });
+    }
 
-  // Close the modal if the background is clicked
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.remove('show');
+    if (modal) {
+      // Close the modal if the background is clicked
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('show');
+        }
+      });
+
+      // Close modal with escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('show')) {
+          modal.classList.remove('show');
+        }
+      });
     }
   });
 </script>
