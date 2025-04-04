@@ -26,7 +26,7 @@ const { title, desc, ogimage, showTitleHeader = true } = Astro.props
 
 const makeTitle = title ? `${title} | Samuel` : 'Samuel - Developer'
 
-const resolvedImage = ogimage ?? new URL('/logo.png', Astro.site).toString()
+const resolvedImage = ogimage ?? new URL('/me.png', Astro.site).toString()
 ---
 
 <!doctype html>
@@ -43,11 +43,11 @@ const resolvedImage = ogimage ?? new URL('/logo.png', Astro.site).toString()
       title='RSS'
       href='feed.xml'
     />
-    <link rel='apple-touch-icon' sizes='180x180' href='/logo.png' />
-    <link rel='icon' type='image/png' sizes='32x32' href='/logo.png' />
-    <link rel='icon' type='image/png' sizes='16x16' href='/logo.png' />
+    <link rel='apple-touch-icon' sizes='180x180' href='/me.png' />
+    <link rel='icon' type='image/png' sizes='32x32' href='/me.png' />
+    <link rel='icon' type='image/png' sizes='16x16' href='/me.png' />
     <link rel='manifest' href='/site.webmanifest' />
-    <link rel='mask-icon' href='/logo.png' color='#000718' />
+    <link rel='mask-icon' href='/me.png' color='#000718' />
     <meta name='msapplication-TileColor' content='#000718' />
     <meta name='theme-color' content='#ffffff' />
     <ViewTransitions />
