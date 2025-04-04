@@ -5,18 +5,6 @@ import ExternalLink from './external-link.astro'
 const footerLinks = [
   [
     {
-      label: 'Home',
-      url: '/',
-      isExternal: false,
-    },
-    {
-      label: 'About',
-      url: '/about/',
-      isExternal: false,
-    }
-  ],
-  [
-    {
       label: 'GitHub',
       url: GITHUB_URL,
       isExternal: true,
@@ -73,7 +61,7 @@ const footerLinks = [
         }
       </div>
       <p class='footer--copyright'>
-        © {new Date().getFullYear()} Samuel | Made with <span class="heart">❤</span>
+        © {new Date().getFullYear()} Samuel
       </p>
     </div>
     <div class='footer--newsletter'>
@@ -376,41 +364,38 @@ const footerLinks = [
   }
 </style>
 
-<script>
-  // JavaScript to open and close modal with null checks
-  document.addEventListener('DOMContentLoaded', () => {
+<script is:inline>
+  function setupModal() {
     const profileImage = document.getElementById('profileImage');
     const modal = document.getElementById('imageModal');
     const closeModal = document.getElementById('closeModal');
 
     if (profileImage && modal) {
-      // Open the modal when image is clicked
       profileImage.addEventListener('click', () => {
         modal.classList.add('show');
       });
     }
 
     if (closeModal && modal) {
-      // Close the modal when X is clicked
       closeModal.addEventListener('click', () => {
         modal.classList.remove('show');
       });
     }
 
     if (modal) {
-      // Close the modal if the background is clicked
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
           modal.classList.remove('show');
         }
       });
-
-      // Close modal with escape key
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('show')) {
           modal.classList.remove('show');
         }
       });
     }
-  });
+  }
+  setupModal();
+  document.addEventListener('DOMContentLoaded', setupModal);
+  document.addEventListener('astro:page-load', setupModal);
 </script>
