@@ -5,7 +5,9 @@ import MainLayout from "@/layouts/main.astro";
 import { getHomepageCollection } from "../content/_utils";
 import ExternalLink from "@/components/external-link.astro";
 
-const [hasMorePosts, projectPosts] = await getHomepageCollection("project");
+const page = Astro.url.searchParams.get('page') ? parseInt(Astro.url.searchParams.get('page') || '1') : 1;
+
+const { items: projectPosts, totalPages, currentPage } = await getHomepageCollection("project", page);
 ---
 
 <MainLayout title="" showTitleHeader={false}>
@@ -28,7 +30,7 @@ const [hasMorePosts, projectPosts] = await getHomepageCollection("project");
         </ExternalLink> as a <span class="highlight">Java Developer</span>.  Since
         childhood, I've loved problem-solving—taking gadgets apart, understanding their
         mechanics, and putting them back together sparked my career goals. Now, as a
-        Java backend developer, I’ve honed critical thinking and developed strategies
+        Java backend developer, I've honed critical thinking and developed strategies
         for today's digital challenges. Outside of work, I enjoy basketball, adventures
         with friends, and coding. Movies are also a big passion, inspiring me with their
         storytelling and creativity.
@@ -45,54 +47,132 @@ const [hasMorePosts, projectPosts] = await getHomepageCollection("project");
   <div class="content-table">
     <div class="content-table--section projects-section">
       <h2>Projects</h2>
-      <div class="content-table--section-list">
+      <div id="projects-list" class="content-table--section-list">
         {
-          projectPosts.map((post, index) =>
-            post.data.isExternal ? (
+          projectPosts && projectPosts.map((post, index) =>
+            post?.data?.isExternal ? (
               <div
                 class="content-table--list-item"
                 style={`animation-delay: ${index * 0.1}s`}
               >
-                <ExternalLink
-                  className="content-table--item-title"
-                  href={post.data.externalUrl}
-                >
-                  {post.data.title}
-                </ExternalLink>
-                <p>{format(post.data.date)}</p>
+                <div class="project-info">
+                  <ExternalLink
+                    className="content-table--item-title"
+                    href={post.data.externalUrl}
+                  >
+                    {post.data.title}
+                  </ExternalLink>
+                  {post.data.description && post.data.description.trim() !== '' && (
+                    <p class="project-description">{post.data.description}</p>
+                  )}
+                </div>
+                <p class="project-date">{format(post.data.date)}</p>
               </div>
             ) : (
               <div
                 class="content-table--list-item"
                 style={`animation-delay: ${index * 0.1}s`}
               >
-                <a
-                  class="content-table--item-title"
-                  href={`/project/${post.slug}/`}
-                >
-                  {post.data.title}
-                </a>
-                <p>{format(post.data.date)}</p>
+                <div class="project-info">
+                  <a
+                    class="content-table--item-title"
+                    href={`/project/${post.slug}/`}
+                  >
+                    {post.data.title}
+                  </a>
+                  {post.data.description && post.data.description.trim() !== '' && (
+                    <p class="project-description">{post.data.description}</p>
+                  )}
+                </div>
+                <p class="project-date">{format(post.data.date)}</p>
               </div>
             )
           )
         }
-        {
-          hasMorePosts && (
-            <a
-              href="https://github.com/samueldervishi1?tab=repositories"
-              class="see-more"
-              target="_blank"
-              rel="noopener"
-            >
-              See more <span class="arrow">→</span>
-            </a>
-          )
-        }
       </div>
+      
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <nav aria-label="Projects pagination" class="pagination">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNum => (
+            <a 
+              href={`/?page=${pageNum}`}
+              class={`pagination-link ${pageNum === currentPage ? 'active' : ''}`}
+              aria-current={pageNum === currentPage ? 'page' : undefined}
+            >
+              {pageNum}
+            </a>
+          ))}
+        </nav>
+      )}
     </div>
   </div>
 </MainLayout>
+
+<script>
+  // Client-side pagination handling
+  document.addEventListener('astro:page-load', () => {
+    // Add animation to projects section when it's loaded/changed
+    const projectsList = document.getElementById('projects-list');
+    if (projectsList) {
+      projectsList.classList.add('fade-in');
+      setTimeout(() => {
+        projectsList.classList.remove('fade-in');
+      }, 600);
+    }
+
+    // Get all pagination links
+    const paginationLinks = document.querySelectorAll('.pagination-link');
+    
+    // Add click event listeners to each pagination link
+    paginationLinks.forEach(link => {
+      link.addEventListener('click', async (e) => {
+        e.preventDefault();
+        
+        // Get the URL from the link
+        const url = new URL(link.getAttribute('href') || '/', window.location.origin);
+        
+        // Update browser history without reloading
+        window.history.pushState({}, '', url);
+        
+        try {
+          // Fetch the new page content
+          const response = await fetch(url);
+          const html = await response.text();
+          
+          // Parse the HTML
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          
+          // Get the new projects list and pagination
+          const newProjects = doc.getElementById('projects-list');
+          const newPagination = doc.querySelector('.pagination');
+          
+          // Update the current page's DOM
+          if (newProjects && projectsList) {
+            projectsList.innerHTML = newProjects.innerHTML;
+            projectsList.classList.add('fade-in');
+            setTimeout(() => {
+              projectsList.classList.remove('fade-in');
+            }, 600);
+          }
+          
+          // Update pagination active state
+          document.querySelectorAll('.pagination-link').forEach(pLink => {
+            pLink.classList.remove('active');
+            pLink.removeAttribute('aria-current');
+          });
+          
+          // Update the active class on the current pagination link
+          link.classList.add('active');
+          link.setAttribute('aria-current', 'page');
+        } catch (error) {
+          console.error('Error updating content:', error);
+        }
+      });
+    });
+  });
+</script>
 
 <style>
   :root {
@@ -525,6 +605,12 @@ const [hasMorePosts, projectPosts] = await getHomepageCollection("project");
     grid-column-start: 2;
   }
 
+  /* Ensure pagination takes full width */
+  .content-table--section > nav.pagination {
+    grid-column: 1 / -1;
+    margin-top: 2rem;
+  }
+
   .content-table--section-links {
     display: flex;
     flex-direction: column;
@@ -589,6 +675,42 @@ const [hasMorePosts, projectPosts] = await getHomepageCollection("project");
     transition: all 0.3s ease;
     animation: slideIn 0.5s ease-out both;
     border-left: 2px solid transparent;
+  }
+
+  .project-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .project-description {
+    font-style: italic;
+    font-size: var(--fontSizes-sm);
+    opacity: 0.8;
+    margin: 0;
+    color: var(--colors-foreground-subtle);
+    line-height: 1.4;
+  }
+
+  .project-date {
+    flex-shrink: 0;
+    display: flex;
+    align-items: baseline;
+    font-size: var(--fontSizes-sm);
+    font-style: italic;
+    color: var(--colors-foreground-subtle);
+    white-space: nowrap;
+    margin-left: 10px;
+  }
+
+  .project-date::before {
+    content: "";
+    flex: 1;
+    display: inline-flex;
+    margin-right: 6px;
+    border-bottom: 1px dashed var(--border-color);
   }
 
   @keyframes slideIn {
@@ -851,17 +973,34 @@ const [hasMorePosts, projectPosts] = await getHomepageCollection("project");
       gap: 8px;
     }
 
-    .content-table--list-item a {
-      white-space: break-words;
+    .project-info {
+      width: 100%;
     }
 
-    .content-table--list-item p::before {
+    .project-date {
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .project-date::before {
       display: none;
+    }
+
+    .content-table--list-item a {
+      white-space: break-words;
     }
 
     .see-more {
       align-self: center;
       width: 100%;
+      justify-content: center;
+    }
+
+    /* Ensure pagination is properly centered on mobile */
+    .content-table--section > nav.pagination {
+      grid-column: 1;
+      width: 100%;
+      display: flex;
       justify-content: center;
     }
   }
@@ -892,5 +1031,52 @@ const [hasMorePosts, projectPosts] = await getHomepageCollection("project");
     .link-hover-effect {
       display: none;
     }
+  }
+
+  /* Animation for content change */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  /* Pagination styles */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .pagination-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    background: var(--bg-light);
+    color: var(--colors-foreground);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+  }
+
+  .pagination-link:hover {
+    background: var(--bg-medium);
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+  }
+
+  .pagination-link.active {
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(58, 123, 213, 0.3);
   }
 </style>

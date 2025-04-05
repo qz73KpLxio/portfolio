@@ -1,6 +1,6 @@
 ---
-title: 'Web Application to find jobs'
-description: ""
+title: 'Career Crush'
+description: "Web app to find jobs"
 tags: ['react', 'mongodb', 'nodejs']
 date: Sep 19, 2023
 isExternal: true
