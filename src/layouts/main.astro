@@ -9,7 +9,6 @@ import '@/styles/globals.css'
 import '@/styles/utilities.css'
 
 import Header from '@/components/header.astro'
-import Footer from '@/components/footer.astro'
 import PageTitle from '@/components/page-title.astro'
 
 export interface Props {
@@ -76,7 +75,6 @@ const resolvedImage = ogimage ?? new URL('/me.png', Astro.site).toString()
         {title && showTitleHeader && <PageTitle title={title} />}
         <slot />
       </main>
-      <Footer />
     </div>
 
     <style>
