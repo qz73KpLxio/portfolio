@@ -5,8 +5,8 @@ This application requires Node.js v16.13+.
 ```bash
 git clone https://github.com/samueldervishi1/portfolio
 cd portfolio
-pnpm install
-pnpm dev
+npm install
+npm dev
 ```
 
 ## Templating Project
@@ -22,7 +22,3 @@ If you want to use this project code as your own portfolio , you can go ahead. P
 - LinkedIn: [@samueldervishi](https://linkedin.com/in/samueldervishi)
 
 Give a ⭐️ if you like the project!
-
-## License
-
-Copyright © 2020 [Samuel Dervishi](https://github.com/samueldervishi1).<br />
