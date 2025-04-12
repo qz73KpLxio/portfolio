@@ -4,7 +4,7 @@ description: ''
 tags: ['react', 'vite', 'vercel', 'html']
 date: Apr 9, 2025
 isExternal: true
-externalUrl: https://github.com/samueldervishi1/story-ai
+externalUrl: https://story-ai-kappa.vercel.app/
 externalLabel: on GitHub
 ---
 

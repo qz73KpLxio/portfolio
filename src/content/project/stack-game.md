@@ -4,6 +4,6 @@ description: 'JavaScript stack game'
 tags: ['javascript', 'html']
 date: Sep 18, 2024
 isExternal: true
-externalUrl: https://github.com/samueldervishi1/stack-game
+externalUrl: https://stack-quest.vercel.app/
 externalLabel: on GitHub
 ---
